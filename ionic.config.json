@@ -1,0 +1,7 @@
+{
+  "name": "corporateAppRayan",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
