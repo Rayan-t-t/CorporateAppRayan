@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Capacitor } from '@capacitor/core';
 import { Geolocation } from '@capacitor/geolocation';
 
 @Injectable({
@@ -9,6 +10,16 @@ export class GeolocationService {
     readonly oficinaLon = -3.6115;
 
     async getCurrentPosition() {
+       if (Capacitor.isNativePlatform()) {
+           const { location } = await Geolocation.checkPermissions();
+           if (location !== 'granted') {
+               const permission = await Geolocation.requestPermissions();
+               if (permission.location !== 'granted') {
+                   throw new Error('Se necesita permiso para acceder a la ubicación.');
+               }
+           }
+       }
+
        const data = await Geolocation.getCurrentPosition();
        return data.coords;
    }
